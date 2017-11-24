@@ -6,45 +6,45 @@ import java.sql.*
 class DatabaseHandler {
 	
 	internal var conn: Connection? = null
-	internal val username = "root"
-	internal val password = "bimo123"
+	internal val username = "user"
+	internal val password = "password"
+	
 	
 	fun setupConnection() {
-        val connectionProps = Properties()
-        connectionProps.put("user", username)
-        connectionProps.put("password", password)
+		val connectionProps = Properties()
+		connectionProps.put("user", username)
+		connectionProps.put("password", password)
 		
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance()
-            conn = DriverManager.getConnection(
-                    "jdbc:" + "mysql" + "://" +
-                            "127.0.0.1" +
-                            ":" + "3306" + "/" +
-                            "",
-                    connectionProps)
-        } catch (ex: SQLException) {
-            ex.printStackTrace()
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-    }
-	
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance()
+			conn = DriverManager.getConnection(
+					"jdbc:" + "mysql" + "://" +
+							"127.0.0.1" +
+							":" + "3306" + "/" +
+							"",
+					connectionProps)
+		} catch (ex: SQLException) {
+			ex.printStackTrace()
+		} catch (ex: Exception) {
+			ex.printStackTrace()
+		}
+	}
 	
 	fun closeConnection() {
 		if (conn != null) {
 			try {
-                conn!!.close()
+				conn!!.close()
             } catch (sqlEx: SQLException) {}
-            conn = null
+			conn = null
         }
 	}
 	
 	fun execQuery(query: String, call: (ResultSet?)->Unit, params: Array<Any>? = null) {
 		var stmt: PreparedStatement? = null
-        var resultset: ResultSet? = null
- 
-        try {
-            stmt = conn!!.prepareStatement(query)
+		var resultset: ResultSet? = null
+		
+		try {
+			stmt = conn!!.prepareStatement(query)
 			
 			if(query.contains('?') && params != null) {
 				for((index, param) in params.withIndex()) {
@@ -56,28 +56,26 @@ class DatabaseHandler {
 				}
 			}
 			resultset = if(stmt.execute()) stmt.resultSet else resultset
-        }
-		catch (ex: SQLException) {
-            ex.printStackTrace()
-        }
+		} catch (ex: SQLException) {
+			ex.printStackTrace()
+		}
 		
 		call(resultset)
 		closeStmt(stmt, resultset)
 	}
 	
-	
 	internal fun closeStmt(stmt: Statement?, resultset: ResultSet?) {
 		if (resultset != null) {
 			try {
-                resultset.close()
-            } catch (sqlEx: SQLException) {}
-    	}
- 
-        if (stmt != null) {
-            try {
-                stmt.close()
-            } catch (sqlEx: SQLException) {}
-        }
+				resultset.close()
+			} catch (sqlEx: SQLException) {}
+		}
+		
+		if (stmt != null) {
+			try {
+				stmt.close()
+			} catch (sqlEx: SQLException) {}
+		}
 	}
 	
 }
