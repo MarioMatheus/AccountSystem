@@ -34,9 +34,9 @@ class DatabaseHandler {
 		if (conn != null) {
 			try {
 				conn!!.close()
-            } catch (sqlEx: SQLException) {}
+			} catch (sqlEx: SQLException) {}
 			conn = null
-        }
+		}
 	}
 	
 	fun execQuery(query: String, call: (ResultSet?)->Unit, params: Array<Any>? = null) {
