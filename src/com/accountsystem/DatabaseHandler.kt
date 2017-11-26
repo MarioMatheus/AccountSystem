@@ -6,8 +6,8 @@ import java.sql.*
 class DatabaseHandler {
 	
 	internal var conn: Connection? = null
-	internal val username = "user"
-	internal val password = "password"
+	internal val username = "root"
+	internal val password = "admin"
 	
 	
 	fun setupConnection() {
