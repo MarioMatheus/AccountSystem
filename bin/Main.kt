@@ -3,8 +3,7 @@ import com.accountsystem.AccountDatabaseController
 import com.accountsystem.DatabaseHandler
 import com.accountsystem.Credor
 
-fun main(args: Array<String>) {
-	println("Hello Kotlin and MySQL")
+fun DatabaseTest() {
 	var dbHandler = DatabaseHandler()
 	var accountCtrl = AccountDatabaseController(dbHandler)
 	
@@ -12,4 +11,12 @@ fun main(args: Array<String>) {
 	accountCtrl.initAccountDatabase()
 	//accountCtrl.insertCredor(Credor(1,"Mario"))
 	dbHandler.closeConnection()
+}
+
+fun main(args: Array<String>) {
+	var dbHandler = DatabaseHandler()
+	var accountCtrl = AccountDatabaseController(dbHandler)
+	var window = AccountsGUI(accountCtrl)
+	
+	window.start()
 }
