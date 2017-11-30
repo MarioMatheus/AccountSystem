@@ -7,7 +7,7 @@ class DatabaseHandler {
 	
 	internal var conn: Connection? = null
 	internal val username = "root"
-	internal val password = "admin"
+	internal val password = "bimo123"
 	
 	
 	fun setupConnection() {
@@ -23,6 +23,7 @@ class DatabaseHandler {
 							":" + "3306" + "/" +
 							"",
 					connectionProps)
+			println("Conexão estabelecida")
 		} catch (ex: SQLException) {
 			ex.printStackTrace()
 		} catch (ex: Exception) {
@@ -34,6 +35,7 @@ class DatabaseHandler {
 		if (conn != null) {
 			try {
 				conn!!.close()
+				println("Conexão Fechada")
 			} catch (sqlEx: SQLException) {}
 			conn = null
 		}

@@ -1,9 +1,18 @@
 package com.accountsystem
 
+import java.sql.ResultSet
+
 class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	
 	fun initAccountDatabase() {
-		dbHandler.execQuery("use accountsystem;", {})
+		dbHandler.setupConnection()
+		//dbHandler.execQuery("use accountsystem;", {})
+		dbHandler.execQuery("use Teste;", {})
+		println("Usando DB Teste")
+	}
+	
+	fun closeAccountDatabase() {
+		dbHandler.closeConnection()
 	}
 	
 	fun insertCredor(credor: Credor) {
@@ -11,8 +20,18 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 		dbHandler.execQuery("INSERT INTO credores (cod_credor, credor) VALUES (?, ?);", {}, parameters)
 	}
 	
-	fun insertCompra(compra: Compra) {
-		// insert compra here
+	fun consultCredores(qtdCredores: Int): Array<Credor?> {
+		var credores = Array<Credor?>(qtdCredores, {null})
+		var i = 0
+		dbHandler.execQuery("SELECT * FROM credores;", { resultset ->
+			while(resultset!!.next() && i<qtdCredores) {
+				credores[i] = Credor(
+						resultset.getInt("cod_credor"),
+						resultset.getString("credor"))
+				i++
+			}
+		})
+		return credores
 	}
 	
 }
