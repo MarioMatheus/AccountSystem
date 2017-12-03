@@ -9,10 +9,10 @@ data class Compra(
 		var dataCompra: String,
 		var valorCompra: Int,
 		var tipo: Int,
-		var credor: Credor)
+		var credor: Int)
 
 data class Parcela(
-		var compra: Compra,
+		var codCompra: Int,
 		var sequencia: Int,
 		var valorParcela: Int,
 		var dataVenc: String,
