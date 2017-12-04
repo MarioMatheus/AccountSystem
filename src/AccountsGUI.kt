@@ -36,6 +36,7 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 	
 	var tfOut = JTextArea()
 	
+	
 	fun start() {
 		accountCtrl.initAccountDatabase()
 		this.setupMenu()
@@ -61,7 +62,7 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		arquivo.add(salvar)
 		arquivo.add(sair)
 		
-		var inst = JMenuItem("Instru��es")
+		var inst = JMenuItem("Instrucoes")
 		var sobre = JMenuItem("Sobre")
 		ajuda.add(inst)
 		ajuda.add(sobre)
@@ -153,7 +154,7 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 	
 	fun abrirJanelaAdicaoCredor() {
 		var janela = JFrame("Inserir Credor")
-		var lbCodigo = JLabel("C�digo: ")
+		var lbCodigo = JLabel("Codigo: ")
 		var lbNome = JLabel("Nome: ")
 		var txCodigo = JTextField(5)
 		var txNome = JTextField(15)
@@ -193,7 +194,8 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		val cbFiltros = JComboBox(filtros)
 		val botao = JButton("Filtrar")
 		botao.addActionListener({
-			//executarFiltro(cbFiltros.getSelectedItem())
+			val itemSelecionado = (cbFiltros.getSelectedItem()).toString()
+			execItem(itemSelecionado)
 			janela.dispose()
 		})
 		
@@ -208,33 +210,13 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		janela.setVisible(true)
 	}
 	
-//	fun executarFiltro(item: String) {
-//		when(item) {
-//			"Item A" -> accountCtrl.execItemA()
-//			"Item B" -> accountCtrl.execItemB()
-//			"Item C" -> accountCtrl.execItemC()
-//			"Item D" -> accountCtrl.execItemD()
-//			"Item E" -> accountCtrl.execItemE()
-//			"Item F" -> accountCtrl.execItemF()
-//			"Item G" -> accountCtrl.execItemG()
-//			"Item H" -> accountCtrl.execItemH()
-//			"Item I" -> accountCtrl.execItemI()
-//			"Item J" -> accountCtrl.execItemJ()
-//			"Item K" -> accountCtrl.execItemK()
-//			"Item L" -> accountCtrl.execItemL()
-//			"Item M" -> accountCtrl.execItemM()
-//			"Item N" -> accountCtrl.execItemN()
-//			"Item O" -> accountCtrl.execItemO()
-//			"Item P" -> accountCtrl.execItemP()
-//			"Item Q" -> accountCtrl.execItemQ()
-//			"Item R" -> accountCtrl.execItemR()
-//			"Item S" -> accountCtrl.execItemS()
-//			"Item T" -> accountCtrl.execItemT()
-//			"Item U" -> accountCtrl.execItemU()
-//			"Item V" -> accountCtrl.execItemV()
-//			"Item W" -> accountCtrl.execItemW()
-//			else -> return
-//		}
-//	}
+	fun execItem(item: String) {
+		val resultados = when(item) {
+			"Item B" -> accountCtrl.execItemB()
+			else -> arrayOf("Nada Encontrado")
+		}
+		tfOut.setText("")
+		//algo mais
+	}
 	
 }

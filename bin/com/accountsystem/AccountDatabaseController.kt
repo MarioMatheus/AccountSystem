@@ -109,4 +109,40 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 		return parcelas
 	}
 	
+	fun execItemA(qtdCredores: Int): Array<Credor?> {
+		return consultCredores(qtdCredores)
+	}
+	
+	fun execItemB(): ArrayList<Any> {
+		var credores = ArrayList<Any>()
+		var i = 0
+		dbHandler.execQuery("SELECT (cod_credor, credor) FROM credores ORDER BY credor;", { resultset ->
+			while(resultset!!.next()) {
+				credores[i] = Credor(
+						resultset.getInt("cod_credor"),
+						resultset.getString("credor"))
+				i++
+			}
+		})
+		return credores
+	}
+	
+	fun execItemC(): ArrayList<Any> {
+		var compras = ArrayList<Any>()
+		dbHandler.execQuery(
+				"""
+				SELECT (cod_credor, cod_compra, data_compra, valor_compra)
+				FROM compras;
+				""", { resultset ->
+				while(resultset!!.next()) {
+					compras.add(object {
+						val codCredor	= resultset.getInt("cod_credor")
+						val codCompra	= resultset.getInt("cod_compra")
+						val dataCompra	= resultset.getInt("data_compra")
+						val valorCompra	= resultset.getInt("valor_compra")
+					})
+				}
+		})
+		return compras
+	}
 }
