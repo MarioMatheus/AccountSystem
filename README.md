@@ -21,15 +21,15 @@ O programa conterá um CRUD do banco de dados abaixo e algumas consultas na form
   | tipo          | INTEGER /*1 - A Vista : 2 - A Prazo*/               |
 
 ### Parcelas
-  | Coluna        | Tipo do dado        |
-  | ------------- | ------------------- |
-  | cod_parcela   | INTEGER PRIMARY KEY |
-  | sequencia     | INTEGER PRIMARY KEY |
-  | valor_parcela | INTEGER             |
-  | data_venc     | DATE                |
-  | data_paga     | DATE                |
-  | multa         | INTEGER             |
-  | juros         | INTEGER             |
+  | Coluna        | Tipo do dado                                                    |
+  | ------------- | --------------------------------------------------------------- |
+  | cod_compra    | INTEGER PRIMARY KEY FOREIGN KEY REFERENCES Compras(cod_compra)  |
+  | sequencia     | INTEGER PRIMARY KEY                                             |
+  | valor_parcela | INTEGER                                                         |
+  | data_venc     | DATE                                                            |
+  | data_paga     | DATE                                                            |
+  | multa         | INTEGER                                                         |
+  | juros         | INTEGER                                                         |
 
 ## License
 O projeto é licenciado pela MIT License - veja a [LICENSE.md](LICENSE) para mais detalhes
