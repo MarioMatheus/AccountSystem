@@ -16,19 +16,48 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun insertCredor(credor: Credor) {
-		val parameters = arrayOf(credor.codCredor, credor.nomeCredor)
-		dbHandler.execQuery("INSERT INTO credores (cod_credor, credor) VALUES (?, ?);", {println("Inserido com sucesso")}, parameters)
+		val parameters = arrayOf(
+				credor.codCredor,
+				credor.nomeCredor)
+		
+		dbHandler.execQuery(
+				"""
+				INSERT INTO credores (cod_credor, credor)
+				VALUES (?, ?);
+				""", {}, parameters)
 	}
 	
-//	fun insertCompras(compra: Compra) {
-//		val parameters = arrayOf(compra.codCompra,
-//				compra.dataCompra,
-//				compra.valorCompra,
-//				compra.tipo,
-//				compra.credor)
-//		
-//		dbHandler.execQuery("INSERT INTO compras (cod_compra) VALUES (?, ?);", {}, parameters)
-//	}
+	fun insertCompras(compra: Compra) {
+		val parameters = arrayOf(
+				compra.codCompra,
+				compra.dataCompra,
+				compra.valorCompra,
+				compra.tipo,
+				compra.codCredor)
+		
+		dbHandler.execQuery(
+				"""
+				INSERT INTO compras (cod_compra, data_compra, valor_compra, tipo, cod_credor)
+				VALUES (?, ?, ?, ?, ?);
+				""", {}, parameters)
+	}
+	
+	fun insertParcela(parcela: Parcela) {
+		val parameters = arrayOf(
+				parcela.codCompra,
+				parcela.sequencia,
+				parcela.valorParcela,
+				parcela.dataVenc,
+				parcela.dataPaga,
+				parcela.multa,
+				parcela.juros)
+		
+		dbHandler.execQuery(
+				"""
+				INSERT INTO parcelas (cod_compra, sequencia, valor_parcela, data_venc, data_paga, multa, juros)
+				VALUES (?, ?, ?, ?, ?, ?, ?);
+				""", {}, parameters)
+	}
 	
 	fun consultCredores(qtdCredores: Int): Array<Credor?> {
 		var credores = Array<Credor?>(qtdCredores, {null})

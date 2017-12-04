@@ -9,7 +9,7 @@ data class Compra(
 		var dataCompra: String,
 		var valorCompra: Int,
 		var tipo: Int,
-		var credor: Int)
+		var codCredor: Int)
 
 data class Parcela(
 		var codCompra: Int,
