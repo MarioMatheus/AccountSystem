@@ -61,7 +61,7 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		arquivo.add(salvar)
 		arquivo.add(sair)
 		
-		var inst = JMenuItem("Instruções")
+		var inst = JMenuItem("Instruï¿½ï¿½es")
 		var sobre = JMenuItem("Sobre")
 		ajuda.add(inst)
 		ajuda.add(sobre)
@@ -153,7 +153,7 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 	
 	fun abrirJanelaAdicaoCredor() {
 		var janela = JFrame("Inserir Credor")
-		var lbCodigo = JLabel("Código: ")
+		var lbCodigo = JLabel("Cï¿½digo: ")
 		var lbNome = JLabel("Nome: ")
 		var txCodigo = JTextField(5)
 		var txNome = JTextField(15)
@@ -185,13 +185,15 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		var janela = JFrame("Filtros")
 		var painel = JPanel(GridLayout(3,1))
 		val filtros = arrayOf(
-				"Item A",
-				"Item B")
+				"Item A", "Item B", "Item C", "Item D", "Item E",
+				"Item F", "Item G", "Item H", "Item I", "Item J",
+				"Item K", "Item L", "Item M", "Item N", "Item O",
+				"Item P", "Item Q", "Item R", "Item S", "Item T",
+				"Item U", "Item V", "Item W")
 		val cbFiltros = JComboBox(filtros)
 		val botao = JButton("Filtrar")
 		botao.addActionListener({
-			//val filt = cbFiltros.getSelectedItem()
-			//executarFiltro()
+			//executarFiltro(cbFiltros.getSelectedItem())
 			janela.dispose()
 		})
 		
@@ -205,5 +207,34 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		janela.setLocationRelativeTo(null)
 		janela.setVisible(true)
 	}
+	
+//	fun executarFiltro(item: String) {
+//		when(item) {
+//			"Item A" -> accountCtrl.execItemA()
+//			"Item B" -> accountCtrl.execItemB()
+//			"Item C" -> accountCtrl.execItemC()
+//			"Item D" -> accountCtrl.execItemD()
+//			"Item E" -> accountCtrl.execItemE()
+//			"Item F" -> accountCtrl.execItemF()
+//			"Item G" -> accountCtrl.execItemG()
+//			"Item H" -> accountCtrl.execItemH()
+//			"Item I" -> accountCtrl.execItemI()
+//			"Item J" -> accountCtrl.execItemJ()
+//			"Item K" -> accountCtrl.execItemK()
+//			"Item L" -> accountCtrl.execItemL()
+//			"Item M" -> accountCtrl.execItemM()
+//			"Item N" -> accountCtrl.execItemN()
+//			"Item O" -> accountCtrl.execItemO()
+//			"Item P" -> accountCtrl.execItemP()
+//			"Item Q" -> accountCtrl.execItemQ()
+//			"Item R" -> accountCtrl.execItemR()
+//			"Item S" -> accountCtrl.execItemS()
+//			"Item T" -> accountCtrl.execItemT()
+//			"Item U" -> accountCtrl.execItemU()
+//			"Item V" -> accountCtrl.execItemV()
+//			"Item W" -> accountCtrl.execItemW()
+//			else -> return
+//		}
+//	}
 	
 }

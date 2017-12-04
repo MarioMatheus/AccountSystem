@@ -7,7 +7,7 @@ class DatabaseHandler {
 	
 	internal var conn: Connection? = null
 	internal val username = "root"
-	internal val password = "admin"
+	internal val password = "bimo123"
 	
 	
 	fun setupConnection() {
