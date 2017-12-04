@@ -125,6 +125,9 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		this.btAddCredor.addActionListener({
 			abrirJanelaAdicaoCredor()
 		})
+		this.btFiltro.addActionListener({
+			abrirJanelaFiltro()
+		})
 	}
 	
 	fun exibirCredores() {
@@ -170,9 +173,34 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		painel.add(lbNome)
 		painel.add(txNome)
 		painel.add(botao)
-		janela.add(painel)
 		
+		janela.add(painel)
 		janela.setSize(300,180)
+		janela.setResizable(false)
+		janela.setLocationRelativeTo(null)
+		janela.setVisible(true)
+	}
+	
+	fun abrirJanelaFiltro() {
+		var janela = JFrame("Filtros")
+		var painel = JPanel(GridLayout(3,1))
+		val filtros = arrayOf(
+				"Item A",
+				"Item B")
+		val cbFiltros = JComboBox(filtros)
+		val botao = JButton("Filtrar")
+		botao.addActionListener({
+			//val filt = cbFiltros.getSelectedItem()
+			//executarFiltro()
+			janela.dispose()
+		})
+		
+		painel.add(JLabel("Filtros"))
+		painel.add(cbFiltros)
+		painel.add(botao)
+		
+		janela.add(painel)
+		janela.setSize(300,120)
 		janela.setResizable(false)
 		janela.setLocationRelativeTo(null)
 		janela.setVisible(true)
