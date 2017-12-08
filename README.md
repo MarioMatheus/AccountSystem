@@ -32,7 +32,7 @@ O programa conterá um CRUD do banco de dados abaixo e algumas consultas na form
   | juros         | INTEGER                                                         |
 
 ## Consultas
-Veja a [CONSULTAS.md](CONSULTAS)
+Veja a [CONSULTAS.md](CONSULTAS.md)
 
 ## License
 O projeto é licenciado pela MIT License - veja a [LICENSE.md](LICENSE) para mais detalhes
