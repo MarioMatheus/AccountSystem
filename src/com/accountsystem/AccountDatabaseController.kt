@@ -6,9 +6,9 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	
 	fun initAccountDatabase() {
 		dbHandler.setupConnection()
-		dbHandler.execQuery("use accountsystem;", {})
-		//dbHandler.execQuery("use Teste;", {})
-		println("Usando DB AccountSystem")
+		//dbHandler.execQuery("use accountsystem;", {})
+		//println("Usando DB AccountSystem")
+		dbHandler.execQuery("use Teste;", {})
 	}
 	
 	fun closeAccountDatabase() {
@@ -109,78 +109,145 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 		return parcelas
 	}
 	
-	fun execItemA(qtdCredores: Int): Array<Credor?> {
-		return consultCredores(qtdCredores)
-	}
-	
-	fun execItemB(): ArrayList<String> {
-		var credores = ArrayList<String>()
-		var codCredor: String
-		var credor: String
-		dbHandler.execQuery("SELECT cod_credor, credor FROM credores ORDER BY credor;", { resultset ->
-			while(resultset!!.next()) {
-				codCredor = resultset.getString("cod_credor")
-				credor = resultset.getString("credor")
-				credores.add("Cod-Credor: $codCredor, Credor: $credor")
-			}
-		})
-		return credores
-	}
-	
-	fun execItemC(): ArrayList<String> {
-		var compras = ArrayList<String>()
-		var codCredor: String
-		var codCompra: String
-		var dataCompra: String
-		var valorCompra: String
+	fun execItem(item: Char, params: Array<Any>? = null): String {
+		var strBuilder = StringBuilder()
+		val itemQuery = setItemQuery(item)
 		
 		dbHandler.execQuery(
-				"""
-				SELECT credor, cod_compra, data_compra, valor_compra FROM compras, credores
-				WHERE credores.cod_credor = compras.cod_credor
-				ORDER BY credor, data_compra;
-				""", { resultset ->
-				while(resultset!!.next()) {
-					codCredor = (resultset.getString("cod_credor"))
-					codCompra = (resultset.getString("cod_compra"))
-					dataCompra = (resultset.getString("data_compra"))
-					valorCompra = (resultset.getString("valor_compra"))
-					compras.add(
-							"""
-							Cod-Credor: $codCredor,
-							Cod-Compra: $codCompra,
-							Data-Compra: $dataCompra,
-							Valor-Compra: $valorCompra
-							""")
-				}
-		})
-		return compras
+				itemQuery,
+				{resultset ->
+					val columnsNames = getColumnsNames(resultset)
+					var row = 1
+										
+					while(resultset!!.next()) {
+						strBuilder.append("${row++} ->")
+						for((i,columnName) in columnsNames.withIndex()) {
+							strBuilder.append(if(i!=0) ", " else " ")
+							strBuilder.append(columnName)
+							strBuilder.append(": ")
+							strBuilder.append(resultset.getString(columnName))
+						}
+						strBuilder.append("\n")
+					}
+				}, params)
+		
+		return strBuilder.toString()
 	}
 	
-	fun execItemD(params: Array<Any>): ArrayList<String> {
-		var compras = ArrayList<String>()
-		var codCompra: String
-		var dataCompra: String
-		var valorCompra: String
+	private fun getColumnsNames(resultset: ResultSet?): ArrayList<String> {
+		var i = 1
+		var columnsNames = ArrayList<String>()
+		val resMetaData = resultset!!.getMetaData()
 		
-		dbHandler.execQuery(
-				"""
-				SELECT cod_compra, data_compra, valor_compra FROM compras, credores
-				WHERE credores.cod_credor = compras.cod_credor AND credores.cod_credor=?;
-				""", { resultset ->
-				while(resultset!!.next()) {
-					codCompra = (resultset.getString("cod_compra"))
-					dataCompra = (resultset.getString("data_compra"))
-					valorCompra = (resultset.getString("valor_compra"))
-					compras.add(
-							"""
-							Cod-Compra: $codCompra,
-							Data-Compra: $dataCompra,
-							Valor-Compra: $valorCompra
-							""")
-				}
-		}, params)
-		return compras
+		while(i <= resMetaData.getColumnCount()) {
+			columnsNames.add(resMetaData.getColumnName(i))
+			i++
+		}
+		
+		return columnsNames
 	}
+	
+	private fun setItemQuery(item: Char): String {
+		return when(item) {
+			'A', 'a' -> Item.A.query
+			'B', 'b' -> Item.B.query
+			'C', 'c' -> Item.C.query
+			'D', 'd' -> Item.D.query
+			'E', 'e' -> Item.E.query
+			'F', 'f' -> Item.F.query
+			'G', 'g' -> Item.G.query
+			'H', 'h' -> Item.H.query
+			'I', 'i' -> Item.I.query
+			'J', 'j' -> Item.J.query
+			'K', 'k' -> Item.K.query
+			'L', 'l' -> Item.L.query
+			'M', 'm' -> Item.M.query
+			'N', 'n' -> Item.N.query
+			'O', 'o' -> Item.O.query
+			'P', 'p' -> Item.P.query
+			'Q', 'q' -> Item.Q.query
+			'R', 'r' -> Item.R.query
+			'S', 's' -> Item.S.query
+			'T', 't' -> Item.T.query
+			'U', 'u' -> Item.U.query
+			'V', 'v' -> Item.V.query
+			'W', 'w' -> Item.W.query
+			else -> "show tables;"
+		}
+	}
+	
+//	fun execItemA(qtdCredores: Int): Array<Credor?> {
+//		return consultCredores(qtdCredores)
+//	}
+//	
+//	fun execItemB(): ArrayList<String> {
+//		var credores = ArrayList<String>()
+//		var codCredor: String
+//		var credor: String
+//		dbHandler.execQuery("SELECT cod_credor, credor FROM credores ORDER BY credor;", { resultset ->
+//			while(resultset!!.next()) {
+//				codCredor = resultset.getString("cod_credor")
+//				credor = resultset.getString("credor")
+//				credores.add("Cod-Credor: $codCredor, Credor: $credor")
+//			}
+//		})
+//		return credores
+//	}
+//	
+//	fun execItemC(): ArrayList<String> {
+//		var compras = ArrayList<String>()
+//		var codCredor: String
+//		var codCompra: String
+//		var dataCompra: String
+//		var valorCompra: String
+//		
+//		dbHandler.execQuery(
+//				"""
+//				SELECT credor, cod_compra, data_compra, valor_compra FROM compras, credores
+//				WHERE credores.cod_credor = compras.cod_credor
+//				ORDER BY credor, data_compra;
+//				""", { resultset ->
+//				while(resultset!!.next()) {
+//					codCredor = (resultset.getString("cod_credor"))
+//					codCompra = (resultset.getString("cod_compra"))
+//					dataCompra = (resultset.getString("data_compra"))
+//					valorCompra = (resultset.getString("valor_compra"))
+//					compras.add(
+//							"""
+//							Cod-Credor: $codCredor,
+//							Cod-Compra: $codCompra,
+//							Data-Compra: $dataCompra,
+//							Valor-Compra: $valorCompra
+//							""")
+//				}
+//		})
+//		return compras
+//	}
+//	
+//	fun execItemD(params: Array<Any>): ArrayList<String> {
+//		var compras = ArrayList<String>()
+//		var codCompra: String
+//		var dataCompra: String
+//		var valorCompra: String
+//		
+//		dbHandler.execQuery(
+//				"""
+//				SELECT cod_compra, data_compra, valor_compra FROM compras, credores
+//				WHERE credores.cod_credor = compras.cod_credor AND credores.cod_credor=?;
+//				""", { resultset ->
+//				while(resultset!!.next()) {
+//					codCompra = (resultset.getString("cod_compra"))
+//					dataCompra = (resultset.getString("data_compra"))
+//					valorCompra = (resultset.getString("valor_compra"))
+//					compras.add(
+//							"""
+//							Cod-Compra: $codCompra,
+//							Data-Compra: $dataCompra,
+//							Valor-Compra: $valorCompra
+//							""")
+//				}
+//		}, params)
+//		return compras
+//	}
 	
 }

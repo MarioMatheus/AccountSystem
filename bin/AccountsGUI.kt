@@ -195,7 +195,7 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		val botao = JButton("Filtrar")
 		botao.addActionListener({
 			val itemSelecionado = (cbFiltros.getSelectedItem()).toString()
-			execItem(itemSelecionado)
+			execItem(itemSelecionado.last())
 			janela.dispose()
 		})
 		
@@ -210,13 +210,8 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		janela.setVisible(true)
 	}
 	
-	fun execItem(item: String) {
-		val resultados = when(item) {
-			"Item B" -> accountCtrl.execItemB()
-			else -> arrayOf("Nada Encontrado")
-		}
-		tfOut.setText("")
-		//algo mais
+	fun execItem(item: Char) {
+		this.tfOut.setText(accountCtrl.execItem(item))
 	}
 	
 }
