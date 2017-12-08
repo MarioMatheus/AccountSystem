@@ -109,12 +109,11 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 		return parcelas
 	}
 	
-	fun execItem(item: Char, params: Array<Any>? = null): String {
+	fun execItem(item: String, params: Array<Any>? = null): String {
 		var strBuilder = StringBuilder()
-		val itemQuery = setItemQuery(item)
 		
 		dbHandler.execQuery(
-				itemQuery,
+				item,
 				{resultset ->
 					val columnsNames = getColumnsNames(resultset)
 					var row = 1
@@ -145,35 +144,6 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 		}
 		
 		return columnsNames
-	}
-	
-	private fun setItemQuery(item: Char): String {
-		return when(item) {
-			'A', 'a' -> Item.A.query
-			'B', 'b' -> Item.B.query
-			'C', 'c' -> Item.C.query
-			'D', 'd' -> Item.D.query
-			'E', 'e' -> Item.E.query
-			'F', 'f' -> Item.F.query
-			'G', 'g' -> Item.G.query
-			'H', 'h' -> Item.H.query
-			'I', 'i' -> Item.I.query
-			'J', 'j' -> Item.J.query
-			'K', 'k' -> Item.K.query
-			'L', 'l' -> Item.L.query
-			'M', 'm' -> Item.M.query
-			'N', 'n' -> Item.N.query
-			'O', 'o' -> Item.O.query
-			'P', 'p' -> Item.P.query
-			'Q', 'q' -> Item.Q.query
-			'R', 'r' -> Item.R.query
-			'S', 's' -> Item.S.query
-			'T', 't' -> Item.T.query
-			'U', 'u' -> Item.U.query
-			'V', 'v' -> Item.V.query
-			'W', 'w' -> Item.W.query
-			else -> "show tables;"
-		}
 	}
 	
 //	fun execItemA(qtdCredores: Int): Array<Credor?> {

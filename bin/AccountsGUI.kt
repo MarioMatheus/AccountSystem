@@ -1,5 +1,6 @@
 import javax.swing.*
 import com.accountsystem.AccountDatabaseController
+import com.accountsystem.Item
 import com.accountsystem.Credor
 import com.accountsystem.Compra
 import com.accountsystem.Parcela
@@ -191,11 +192,12 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 				"Item K", "Item L", "Item M", "Item N", "Item O",
 				"Item P", "Item Q", "Item R", "Item S", "Item T",
 				"Item U", "Item V", "Item W")
-		val cbFiltros = JComboBox(filtros)
+		//val cbFiltros = JComboBox(filtros)
+		val cbFiltros = JComboBox(Item.values())
 		val botao = JButton("Filtrar")
 		botao.addActionListener({
-			val itemSelecionado = (cbFiltros.getSelectedItem()).toString()
-			execItem(itemSelecionado.last())
+			val itemSelecionado = (cbFiltros.getSelectedItem()) as Item
+			execItem(itemSelecionado.query)
 			janela.dispose()
 		})
 		
@@ -210,7 +212,7 @@ class AccountsGUI(var accountCtrl: AccountDatabaseController): JFrame("Sistema d
 		janela.setVisible(true)
 	}
 	
-	fun execItem(item: Char) {
+	fun execItem(item: String) {
 		this.tfOut.setText(accountCtrl.execItem(item))
 	}
 	
