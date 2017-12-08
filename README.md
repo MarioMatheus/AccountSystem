@@ -31,5 +31,8 @@ O programa conterá um CRUD do banco de dados abaixo e algumas consultas na form
   | multa         | INTEGER                                                         |
   | juros         | INTEGER                                                         |
 
+## Consultas
+Veja a [CONSULTAS.md](CONSULTAS)
+
 ## License
 O projeto é licenciado pela MIT License - veja a [LICENSE.md](LICENSE) para mais detalhes
