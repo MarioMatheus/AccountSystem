@@ -6,9 +6,9 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	
 	fun initAccountDatabase() {
 		dbHandler.setupConnection()
-		//dbHandler.execQuery("use accountsystem;", {})
-		//println("Usando DB AccountSystem")
-		dbHandler.execQuery("use Teste;", {})
+		dbHandler.execQuery("use accountsystem;", {})
+		println("Usando DB AccountSystem")
+		//dbHandler.execQuery("use Teste;", {})
 	}
 	
 	fun closeAccountDatabase() {
@@ -27,7 +27,7 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 				""", {}, parameters)
 	}
 	
-	fun insertCompras(compra: Compra) {
+	fun insertCompra(compra: Compra) {
 		val parameters = arrayOf(
 				compra.codCompra,
 				compra.dataCompra,
@@ -50,7 +50,7 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 				parcela.dataVenc,
 				parcela.dataPaga,
 				parcela.multa,
-				parcela.juros)
+				parcela.juros) 
 		
 		dbHandler.execQuery(
 				"""
@@ -109,8 +109,9 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 		return parcelas
 	}
 	
-	fun execItem(item: String, params: Array<Any>? = null): String {
+	fun execItem(item: String, consulta: String, params: Array<Any>? = null): String {
 		var strBuilder = StringBuilder()
+		strBuilder.append(consulta)
 		
 		dbHandler.execQuery(
 				item,
@@ -119,7 +120,7 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 					var row = 1
 										
 					while(resultset!!.next()) {
-						strBuilder.append("${row++} ->")
+						strBuilder.append("    Linha: ${row++} ->")
 						for((i,columnName) in columnsNames.withIndex()) {
 							strBuilder.append(if(i!=0) ", " else " ")
 							strBuilder.append(columnName)
@@ -145,79 +146,5 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 		
 		return columnsNames
 	}
-	
-//	fun execItemA(qtdCredores: Int): Array<Credor?> {
-//		return consultCredores(qtdCredores)
-//	}
-//	
-//	fun execItemB(): ArrayList<String> {
-//		var credores = ArrayList<String>()
-//		var codCredor: String
-//		var credor: String
-//		dbHandler.execQuery("SELECT cod_credor, credor FROM credores ORDER BY credor;", { resultset ->
-//			while(resultset!!.next()) {
-//				codCredor = resultset.getString("cod_credor")
-//				credor = resultset.getString("credor")
-//				credores.add("Cod-Credor: $codCredor, Credor: $credor")
-//			}
-//		})
-//		return credores
-//	}
-//	
-//	fun execItemC(): ArrayList<String> {
-//		var compras = ArrayList<String>()
-//		var codCredor: String
-//		var codCompra: String
-//		var dataCompra: String
-//		var valorCompra: String
-//		
-//		dbHandler.execQuery(
-//				"""
-//				SELECT credor, cod_compra, data_compra, valor_compra FROM compras, credores
-//				WHERE credores.cod_credor = compras.cod_credor
-//				ORDER BY credor, data_compra;
-//				""", { resultset ->
-//				while(resultset!!.next()) {
-//					codCredor = (resultset.getString("cod_credor"))
-//					codCompra = (resultset.getString("cod_compra"))
-//					dataCompra = (resultset.getString("data_compra"))
-//					valorCompra = (resultset.getString("valor_compra"))
-//					compras.add(
-//							"""
-//							Cod-Credor: $codCredor,
-//							Cod-Compra: $codCompra,
-//							Data-Compra: $dataCompra,
-//							Valor-Compra: $valorCompra
-//							""")
-//				}
-//		})
-//		return compras
-//	}
-//	
-//	fun execItemD(params: Array<Any>): ArrayList<String> {
-//		var compras = ArrayList<String>()
-//		var codCompra: String
-//		var dataCompra: String
-//		var valorCompra: String
-//		
-//		dbHandler.execQuery(
-//				"""
-//				SELECT cod_compra, data_compra, valor_compra FROM compras, credores
-//				WHERE credores.cod_credor = compras.cod_credor AND credores.cod_credor=?;
-//				""", { resultset ->
-//				while(resultset!!.next()) {
-//					codCompra = (resultset.getString("cod_compra"))
-//					dataCompra = (resultset.getString("data_compra"))
-//					valorCompra = (resultset.getString("valor_compra"))
-//					compras.add(
-//							"""
-//							Cod-Compra: $codCompra,
-//							Data-Compra: $dataCompra,
-//							Valor-Compra: $valorCompra
-//							""")
-//				}
-//		}, params)
-//		return compras
-//	}
 	
 }

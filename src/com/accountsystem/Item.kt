@@ -20,7 +20,7 @@ enum class Item(val query: String) {
         F("""SELECT credor, tipo, sequencia, valor_parcela, data_venc FROM credores, compras, parcelas
         		WHERE credores.cod_credor=compras.cod_credor 
         			AND compras.cod_compra = parcelas.cod_compra
-        			AND data_paga IS NULL;"""),
+        			AND data_paga = '2099-12-31';"""),
 	
         G("""SELECT cod_credor, data_compra, tipo, sequencia, valor_parcela, data_venc, data_paga, multa, juros FROM compras, parcelas
         		WHERE compras.cod_compra = parcelas.cod_compra
@@ -39,7 +39,7 @@ enum class Item(val query: String) {
 				WHERE credores.cod_credor = compras.cod_credor
 				  AND compras.cod_compra = parcelas.cod_compra
 				  AND data_venc < CURRENT_DATE()
-				  AND data_paga IS NULL
+				  AND data_paga = '2099-12-31'
 				GROUP BY compras.cod_compra;"""),
 	
         K("""SELECT credor, data_venc, data_paga,valor_parcela,multa, juros,valor_parcela + multa + juros as total_pago
@@ -82,12 +82,23 @@ enum class Item(val query: String) {
 				WHERE compras.cod_compra = parcelas.cod_compra
 				GROUP BY compras.cod_compra;"""),
 	
-        T(""""""),
+        T("""SELECT credor, MAX(valor_compra) as maior_compra FROM credores, compras
+				WHERE credores.cod_credor = compras.cod_credor
+				GROUP BY credor;"""),
 	
-        U(""""""),
+        U("""SELECT compras.*, COUNT(sequencia) as num_parcelas FROM compras, parcelas
+				WHERE compras.cod_compra = parcelas.cod_compra
+				GROUP BY cod_compra
+				HAVING COUNT(sequencia) > 3;"""),
 	
-        V(""""""),
+        V("""SELECT credor, SUM(valor_compra) as total_compras FROM credores, compras
+				WHERE credores.cod_credor = compras.cod_credor
+				GROUP BY compras.cod_credor
+				HAVING SUM(valor_compra) > 5000;"""),
 	
-        W("""""")
+        W("""SELECT credor, AVG(valor_compra) as valor_medio FROM credores, compras
+				WHERE credores.cod_credor = compras.cod_credor
+				  AND data_compra BETWEEN ? AND ?
+				GROUP BY compras.cod_credor;""")
 	
 }
