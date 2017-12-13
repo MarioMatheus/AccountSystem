@@ -34,5 +34,10 @@ O programa conterá um CRUD do banco de dados abaixo e algumas consultas na form
 ## Consultas
 Veja a [CONSULTAS.md](CONSULTAS.md)
 
+## Telas
+![Consultas](https://raw.githubusercontent.com/MarioMatheus/AccountSystem/master/telas/consultas.png)
+![Inserções](https://raw.githubusercontent.com/MarioMatheus/AccountSystem/master/telas/insercoes.png)
+![Filtrando](https://raw.githubusercontent.com/MarioMatheus/AccountSystem/master/telas/filtrando.png)
+
 ## License
 O projeto é licenciado pela MIT License - veja a [LICENSE.md](LICENSE) para mais detalhes
