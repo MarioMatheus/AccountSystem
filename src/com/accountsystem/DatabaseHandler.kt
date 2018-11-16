@@ -8,6 +8,8 @@ class DatabaseHandler {
 	internal var conn: Connection? = null
 	internal val username = "root"
 	internal val password = "admin"
+	internal val path = "127.0.0.1"
+	internal val port = "3306"
 	
 	
 	fun setupConnection() {
@@ -18,26 +20,21 @@ class DatabaseHandler {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance()
 			conn = DriverManager.getConnection(
-					"jdbc:" + "mysql" + "://" +
-							"127.0.0.1" +
-							":" + "3306" + "/" +
-							"",
+					"jdbc:mysql://$path:$port/",
 					connectionProps)
 			println("Conexao estabelecida")
-		} catch (ex: SQLException) {
-			ex.printStackTrace()
 		} catch (ex: Exception) {
 			ex.printStackTrace()
 		}
 	}
 	
 	fun closeConnection() {
-		if (conn != null) {
+		conn?.let{
 			try {
-				conn!!.close()
+				it.close()
 				println("Conexão Fechada")
 			} catch (sqlEx: SQLException) {}
-			conn = null
+			it = null
 		}
 	}
 	
@@ -46,7 +43,7 @@ class DatabaseHandler {
 		var resultset: ResultSet? = null
 		
 		try {
-			stmt = conn!!.prepareStatement(query)
+			stmt = conn?.prepareStatement(query)
 			
 			if(query.contains('?') && params != null) {
 				for((index, param) in params.withIndex()) {
@@ -67,17 +64,15 @@ class DatabaseHandler {
 	}
 	
 	internal fun closeStmt(stmt: Statement?, resultset: ResultSet?) {
-		if (resultset != null) {
-			try {
-				resultset.close()
-			} catch (sqlEx: SQLException) {}
-		}
-		
-		if (stmt != null) {
-			try {
-				stmt.close()
-			} catch (sqlEx: SQLException) {}
-		}
+		try {
+		    resultset?.let{
+				it.close()
+			}
+			stmt?.let{
+				it.close()
+			}
+		}catch (sqlEx: SQLException) {}
+
 	}
 	
 }
