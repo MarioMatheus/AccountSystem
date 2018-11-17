@@ -24,6 +24,7 @@ class DatabaseHandler {
 					connectionProps)
 			println("Conexao estabelecida")
 		} catch (ex: Exception) {
+			conn = null
 			ex.printStackTrace()
 		}
 	}
@@ -34,7 +35,6 @@ class DatabaseHandler {
 				it.close()
 				println("Conexão Fechada")
 			} catch (sqlEx: SQLException) {}
-			it = null
 		}
 	}
 	
@@ -48,13 +48,13 @@ class DatabaseHandler {
 			if(query.contains('?') && params != null) {
 				for((index, param) in params.withIndex()) {
 					when(param) {
-						is Int -> stmt.setInt(index+1, param)
-						is String -> stmt.setString(index+1, param)
-						else -> stmt.setNull(index+1, -1)
+						is Int -> stmt?.setInt(index+1, param)
+						is String -> stmt?.setString(index+1, param)
+						else -> stmt?.setNull(index+1, -1)
 					}
 				}
 			}
-			resultset = if(stmt.execute()) stmt.resultSet else resultset
+			resultset = if(stmt?.execute()!!) stmt.resultSet else resultset
 		} catch (ex: SQLException) {
 			ex.printStackTrace()
 		}
@@ -65,12 +65,8 @@ class DatabaseHandler {
 	
 	internal fun closeStmt(stmt: Statement?, resultset: ResultSet?) {
 		try {
-		    resultset?.let{
-				it.close()
-			}
-			stmt?.let{
-				it.close()
-			}
+			resultset?.close()
+			stmt?.close()
 		}catch (sqlEx: SQLException) {}
 
 	}
