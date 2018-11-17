@@ -5,14 +5,7 @@ import model.Credor
 import model.Parcela
 import java.sql.ResultSet
 
-class AccountDatabaseController(val dbHandler: DatabaseHandler) {
-	
-	fun initAccountDatabase() {
-		dbHandler.setupConnection()
-		dbHandler.execQuery("use accountsystem;", {})
-		println("Usando DB AccountSystem")
-		//dbHandler.execQuery("use Teste;", {})
-	}
+class AccountDatabaseController(private val dbHandler: DatabaseHandler) {
 	
 	fun closeAccountDatabase() {
 		dbHandler.closeConnection()
@@ -63,7 +56,7 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun consultCredores(qtdCredores: Int): Array<Credor?> {
-		val credores = Array<Credor?>(qtdCredores, {null})
+		val credores = Array<Credor?>(qtdCredores) {null}
 		var i = 0
 		dbHandler.execQuery("SELECT * FROM credores;", {
 			while(it!!.next() && i<qtdCredores) {
@@ -77,7 +70,7 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun consultCompras(qtdCompras: Int): Array<Compra?> {
-		val compras = Array<Compra?>(qtdCompras, {null})
+		val compras = Array<Compra?>(qtdCompras) {null}
 		var i = 0
 		dbHandler.execQuery("SELECT * FROM compras;", {
 
@@ -95,7 +88,7 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun consultParcelas(qtdParcelas: Int): Array<Parcela?> {
-		val parcelas = Array<Parcela?>(qtdParcelas, {null})
+		val parcelas = Array<Parcela?>(qtdParcelas) {null}
 		var i = 0
 		dbHandler.execQuery("SELECT * FROM parcelas;", {
 			while(it!!.next() && i<qtdParcelas) {

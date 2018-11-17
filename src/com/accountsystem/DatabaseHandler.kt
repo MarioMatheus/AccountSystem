@@ -10,7 +10,12 @@ class DatabaseHandler {
 	internal val password = "admin"
 	internal val path = "127.0.0.1"
 	internal val port = "3306"
-	
+
+	init {
+	    setupConnection()
+		execQuery("use accountsystem;", {})
+		println("Usando DB AccountSystem")
+	}
 	
 	fun setupConnection() {
 		val connectionProps = Properties()

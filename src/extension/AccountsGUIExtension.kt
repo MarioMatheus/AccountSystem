@@ -106,7 +106,6 @@ fun AccountsGUI.setupListenersMethods() {
 }
 
 fun AccountsGUI.start() {
-    accountCtrl.initAccountDatabase()
     setupMenu()
     jMenuBar = menuBar
     minimumSize = Dimension(1100, 620)
