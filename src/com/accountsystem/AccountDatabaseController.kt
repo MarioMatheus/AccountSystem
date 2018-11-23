@@ -1,15 +1,11 @@
 package com.accountsystem
 
+import model.Compra
+import model.Credor
+import model.Parcela
 import java.sql.ResultSet
 
-class AccountDatabaseController(val dbHandler: DatabaseHandler) {
-	
-	fun initAccountDatabase() {
-		dbHandler.setupConnection()
-		dbHandler.execQuery("use accountsystem;", {})
-		println("Usando DB AccountSystem")
-		//dbHandler.execQuery("use Teste;", {})
-	}
+class AccountDatabaseController(private val dbHandler: DatabaseHandler) {
 	
 	fun closeAccountDatabase() {
 		dbHandler.closeConnection()
@@ -60,13 +56,13 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun consultCredores(qtdCredores: Int): Array<Credor?> {
-		var credores = Array<Credor?>(qtdCredores, {null})
+		val credores = Array<Credor?>(qtdCredores) {null}
 		var i = 0
-		dbHandler.execQuery("SELECT * FROM credores;", { resultset ->
-			while(resultset!!.next() && i<qtdCredores) {
+		dbHandler.execQuery("SELECT * FROM credores;", {
+			while(it!!.next() && i<qtdCredores) {
 				credores[i] = Credor(
-						resultset.getInt("cod_credor"),
-						resultset.getString("credor"))
+						it.getInt("cod_credor"),
+						it.getString("credor"))
 				i++
 			}
 		})
@@ -74,16 +70,17 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun consultCompras(qtdCompras: Int): Array<Compra?> {
-		var compras = Array<Compra?>(qtdCompras, {null})
+		val compras = Array<Compra?>(qtdCompras) {null}
 		var i = 0
-		dbHandler.execQuery("SELECT * FROM compras;", { resultset ->
-			while(resultset!!.next() && i<qtdCompras) {
+		dbHandler.execQuery("SELECT * FROM compras;", {
+
+			while(it!!.next() && i<qtdCompras) {
 				compras[i] = Compra(
-						resultset.getInt("cod_compra"),
-						resultset.getString("data_compra"),
-						resultset.getInt("valor_compra"),
-						resultset.getInt("tipo"),
-						resultset.getInt("cod_credor"))
+						it.getInt("cod_compra"),
+						it.getString("data_compra"),
+						it.getInt("valor_compra"),
+						it.getInt("tipo"),
+						it.getInt("cod_credor"))
 				i++
 			}
 		})
@@ -91,18 +88,18 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun consultParcelas(qtdParcelas: Int): Array<Parcela?> {
-		var parcelas = Array<Parcela?>(qtdParcelas, {null})
+		val parcelas = Array<Parcela?>(qtdParcelas) {null}
 		var i = 0
-		dbHandler.execQuery("SELECT * FROM parcelas;", { resultset ->
-			while(resultset!!.next() && i<qtdParcelas) {
+		dbHandler.execQuery("SELECT * FROM parcelas;", {
+			while(it!!.next() && i<qtdParcelas) {
 				parcelas[i] = Parcela(
-						resultset.getInt("cod_compra"),
-						resultset.getInt("sequencia"),
-						resultset.getInt("valor_parcela"),
-						resultset.getString("data_venc"),
-						resultset.getString("data_paga"),
-						resultset.getInt("multa"),
-						resultset.getInt("juros"))
+						it.getInt("cod_compra"),
+						it.getInt("sequencia"),
+						it.getInt("valor_parcela"),
+						it.getString("data_venc"),
+						it.getString("data_paga"),
+						it.getInt("multa"),
+						it.getInt("juros"))
 				i++
 			}
 		})
@@ -110,22 +107,22 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	}
 	
 	fun execItem(item: String, consulta: String, params: Array<Any>? = null): String {
-		var strBuilder = StringBuilder()
+		val strBuilder = StringBuilder()
 		strBuilder.append(consulta)
 		
-		dbHandler.execQuery(
-				item,
-				{resultset ->
+		dbHandler.execQuery(item, {resultset ->
 					val columnsNames = getColumnsNames(resultset)
 					var row = 1
-										
+
 					while(resultset!!.next()) {
 						strBuilder.append("    Linha: ${row++} ->")
 						for((i,columnName) in columnsNames.withIndex()) {
-							strBuilder.append(if(i!=0) ", " else " ")
-							strBuilder.append(columnName)
-							strBuilder.append(": ")
-							strBuilder.append(resultset.getString(columnName))
+							strBuilder.run {
+								append(if(i!=0) ", " else " ")
+								append(columnName)
+								append(": ")
+								append(resultset.getString(columnName))
+							}
 						}
 						strBuilder.append("\n")
 					}
@@ -136,10 +133,10 @@ class AccountDatabaseController(val dbHandler: DatabaseHandler) {
 	
 	private fun getColumnsNames(resultset: ResultSet?): ArrayList<String> {
 		var i = 1
-		var columnsNames = ArrayList<String>()
-		val resMetaData = resultset!!.getMetaData()
+		val columnsNames = ArrayList<String>()
+		val resMetaData = resultset!!.metaData
 		
-		while(i <= resMetaData.getColumnCount()) {
+		while(i <= resMetaData.columnCount) {
 			columnsNames.add(resMetaData.getColumnName(i))
 			i++
 		}

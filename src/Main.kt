@@ -1,10 +1,9 @@
 /* Getting Started the Application */
 import com.accountsystem.AccountDatabaseController
 import com.accountsystem.DatabaseHandler
+import ui.AccountsGUI
 
 fun main(args: Array<String>) {
-	var dbHandler = DatabaseHandler()
-	var accountCtrl = AccountDatabaseController(dbHandler)
-	var window = AccountsGUI(accountCtrl)
-	window.start()
+	val accountCtrl = AccountDatabaseController(DatabaseHandler())
+	AccountsGUI(accountCtrl)
 }
